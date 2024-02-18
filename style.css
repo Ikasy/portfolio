@@ -1,0 +1,229 @@
+@font-face {
+  font-family: handskrift;
+  src: url(media/Minhandskrift-Regular.otf);
+}
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* the draggable scrolling handle. */
+::-webkit-scrollbar-thumb {
+  background-color: #F34569;
+  border-radius: 50px;
+  transition: all 0.5s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #b62642;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #32506A
+} 
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: handskrift, sans-serif;
+  color: white;
+  font-weight: normal;
+  background-image: url("media/img/pb.png");
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: contain; 
+  background-clip: border-box; /* Clip background to padding box to avoid scrollbar */
+  min-height: 100vh; /* Ensure the body at least covers the viewport height */
+}
+
+
+
+/* tekst regler */
+/* Kilde: https://matthewjamestaylor.com/responsive-font-size set d. 15/02/2024 kl.22:00 */
+h1{
+  font-size: calc(36px + 0.390625vw);
+}
+h2{
+  font-size: calc(24px + 0.390625vw);
+}
+h3{
+  font-size: calc(17px + 0.390625vw);
+}
+p{
+  font-size: calc(15px + 0.390625vw);
+}
+a{
+  color: white;
+  text-decoration: none;
+  font-size: calc(15px + 0.390625vw);
+}
+a img{
+  width: 50px;
+}
+
+/* Header */
+header{
+  height: 7vh;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1vw 0 1vw;
+}
+
+header div{
+  display: flex;
+  align-items: center;
+}
+nav{
+  width: 20vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* main */
+main{
+  width: 80vw;
+  margin: auto;
+  text-align: center;
+}
+
+
+/* glas effekt */
+
+.glasseffect{ 
+  position: relative;
+  background-image: url('media/img/noiseeffect.png'), linear-gradient(rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.10) 100%); /* Your image and linear gradient */
+  background-repeat: repeat;
+  border-radius: 50px;
+  padding: 2vw;
+}
+
+.glasseffect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px; 
+  border: 2px solid transparent; /*2*/
+  background: linear-gradient(rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0.20)) border-box; /*3*/
+  -webkit-mask: /*4*/
+      linear-gradient(#fff,#fff 0 0) padding-box, 
+      linear-gradient(#fff,#fff 0 0);
+  -webkit-mask-composite: xor; /*5'*/
+      mask-composite: exclude; /*5*/
+}
+
+
+
+
+
+
+
+
+/* fire områder */
+.fireomrader{
+  display: flex;
+
+  height: fit-content;
+}
+.fireomrader section {
+  display: flex;
+  width: 25%;
+  height: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0 2%;
+}
+/* tre områder */
+.treomrader{
+  display: flex;
+  justify-content: space-between;
+}
+.treomrader section{
+  width: 25%;
+  text-align: left;
+}
+
+/* to områder */
+.toomrader{
+  display: flex;
+  justify-content: space-between;
+}
+.toomrader div{
+  text-align: left;
+  width: 40vw;
+}
+
+.toomrader section{
+  width: 35vw;
+}
+
+.toomrader p{
+  text-align: left;
+  width: 37vw;
+}
+#linkalign{
+  width: fit-content;
+  margin: auto;
+}
+
+#linkalign a{
+  display: flex;
+  align-items: center;
+  margin-bottom: 1vh;
+}
+#linkalign a img{
+  margin-right: 1vw;
+}
+/* ned pil/player */
+#nedpil{
+  cursor: pointer;
+}
+
+
+/* til top knap */
+#tilbageTilTop {
+  display: none;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+/* filler img HUSK AT SLETTE------------------------------------ */
+.fillerimg{
+  width: 500px;
+  height: 500px;
+  background-color: aqua;
+}
+
+/* Afstande */
+/* Undgå margin top/bottom andre steder  */
+.margTop{
+  margin-top: 5vh;
+}
+.margBot{
+  margin-bottom: 5vh;
+}
+
+/* knap */
+button{
+  font-family: handskrift, sans-serif;
+  font-size: calc(15px + 0.390625vw);
+  color: white;
+  background-color: #ffffff00;
+  border: 3px solid white;
+  border-radius: 100px;
+  padding: 1vw 3vw;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* arbejdsområder */
+/* husk mobilversionen */
+.border {
+  border-right: rgb(255, 255, 255) 2px solid;
+}
+
+.border:last-child {
+  border: none;
+}
