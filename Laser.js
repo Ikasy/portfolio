@@ -1,13 +1,14 @@
 export default class Laser {
     constructor(x,y) {
-        this.x = x;
+        this.width = 5;
+        this.height = 15;
+        this.color = "red";
+        this.x = x -this.width/2;
         this.y = y;
         this.speed = 5;
         this.damage = 10;
     
-        this.width = 5;
-        this.height = 15;
-        this.color = "red";
+        
     }
     
     draw(ctx) {

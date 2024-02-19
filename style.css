@@ -31,7 +31,7 @@ html, body {
   font-weight: normal;
   background-image: url("media/img/pb.png");
   background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: contain; 
+  background-size: cover; 
   background-clip: border-box; /* Clip background to padding box to avoid scrollbar */
   min-height: 100vh; /* Ensure the body at least covers the viewport height */
 }
@@ -199,7 +199,7 @@ main{
 /* Afstande */
 /* Undgå margin top/bottom andre steder  */
 .margTop{
-  margin-top: 5vh;
+  margin-top: 15vh;
 }
 .margBot{
   margin-bottom: 5vh;
@@ -226,4 +226,28 @@ button{
 
 .border:last-child {
   border: none;
+}
+
+
+/* Spillet */
+canvas{
+  position: absolute;
+  top: 10vh;
+  left: 10vw;
+  z-index: 0;
+}
+#top{
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  margin: 50px auto;
+}
+
+.fade-out {
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+}
+.fade-out.hidden {
+  opacity: 0;
+  pointer-events: none; /* Disables pointer events when hidden */
 }

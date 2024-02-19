@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Portfolio</title>
         <link rel="stylesheet" href="style.css">
-        <script src="script.js" type="module" defer></script>
+        <script src="./script.js" type="module" defer></script>
         <link rel="shortcut icon" href="media/img/logo.svg" type="image/x-icon">
     </head>
 
@@ -32,20 +32,20 @@
         </a>
 
         <main>
-            <div id="top" class="toomrader margBot margTop">
+            <div id="top" class="toomrader margBot margTop fade-out">
                 <div>
                     <h2>Multimediedesigner - frontend udvikler</h2>
                     <h1>Julie Nielsen</h1>
                     <p>Velkommen til mit digitale univers! Jeg er en passioneret multimediedesigner med en dedikation til front-end development.  Mit fokus ligger på at kombinere æstetik med funktionalitet for at levere en engagerende brugeroplevelse, og gerne med et sjovt element, så...</p>
-                    <button class="margTop"> Skal vi spille?</button>
+                    <button id="startSpil" class="margTop"> Skal vi spille?</button>
                 </div>
 
                 <img src="media/img/cirkelportrat.png" alt="Portræt i en cirkel. Pige med langt lyst hår, sort trøje og halskæde">
             </div>
+                        <canvas id="game"></canvas>
             
-            <img id="nedpil" class="margBot" src="media/img/downArrow.svg" alt="Rul ned pil | Spiller i spillet">
-            <canvas id="game"></canvas>
-            <div class="glasseffect margBot">
+            
+            <div class="glasseffect margBot margTop">
                 <h2 id="ommig">Om mig</h2>
                 <div class="toomrader">
                     <img class="fillerimg" src="" alt="">

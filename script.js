@@ -4,98 +4,78 @@ import Dot from "./Dot.js";
 
 let player;
 let dots = [];
-let timeStamp = 0;
-let interval = 1500;
+
 let score = 0
 let textX = 550
+
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-canvas.width = 550;
-canvas.height = 600;
+canvas.width =  window.innerWidth * 0.8;
+canvas.height = window.innerHeight * 0.9;
 
-player = new Player(canvas.width/2, canvas.height-100);
-// timeStamp = millis(); <--- omskriv med setInterval
+player = new Player(canvas.width / 2, canvas.height-200);
+player.draw(ctx);
 
-const PercentOfCanvasHeight = canvas.height * 0.3 ; // Calculate 10% of canvas height
 
-for (let i = 50; i < canvas.width; i += 50) { // x
-    for (let j = 50; j < canvas.height - PercentOfCanvasHeight; j += 50) { // y
+const PercentOfCanvasHeight = canvas.height * 0.30; // Calculate 10% of canvas height
+for (let i = 10; i < canvas.width; i += 50) {
+    for (let j = 10; j < canvas.height - PercentOfCanvasHeight; j += 50) {
         dots.push(new Dot(i, j));
     }
 }
-
+dots.forEach((dot) => {
+    dot.draw(ctx);
+});
+const startSpilKnap = document.getElementById("startSpil");
+const topdiv = document.getElementById("top");
+startSpilKnap.onclick = function(event){
+    topdiv.classList.add('hidden');
+    setInterval(gameLoop, 1000 / 60);
+}
 
 
 function gameLoop() {
-    ctx.fillStyle = "grey";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Clear the canvas with a transparent background
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw background elements
     dots.forEach((dot) => {
         dot.draw(ctx);
     });
+    
+    // Draw player and its lasers
     player.draw(ctx);
     player.shoot();
     player.lasers.forEach((laser) => {
-        if (laser.y<-laser.height) {
-            const index = player.lasers.indexOf(laser);
+        let index = player.lasers.indexOf(laser);
+        if (laser.y < -laser.height) {
             player.lasers.splice(index, 1);
+            console.log(player.lasers.length);
         }
         laser.draw(ctx);
-    });
+        
+        dots.forEach((dot) =>{
+            let indexdot = dots.indexOf(dot);
+            if (
+            laser.x + laser.width/2 < dot.x + dot.radius &&
+            laser.x + laser.width/2 + laser.width > dot.x &&
+            laser.y < dot.y + dot.radius &&
+            laser.y + laser.height > dot.y
+        ) {
+            console.log("hit");
+            player.lasers.splice(index, 1);
+            dots.splice(indexdot, 1);
+        }
+        }
+                
+        )
+    
+});
+player.rotate();
 }
-
-setInterval(gameLoop, 1000 / 60);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Run this function when the window has finished loading
-//------------------------ kilde chatgpt, virker ikke lige nu
-// https://chat.openai.com/share/37266c94-caf0-4b3c-8639-6e268e9d3fc4
-window.onload = function() {
-    // Call the function to update the body height
-    updateBodyHeight();
-};
-
-// Run this function whenever the window is resized
-window.onresize = function() {
-    // Call the function to update the body height  
-    updateBodyHeight();
-};
-
-// Function to update the body height based on the background image size and viewport dimensions
-function updateBodyHeight() {
-    // Create a new image object
-    var img = new Image();
-    // Set the source of the image
-    img.src = 'media/img/pb.png';
-    // Once the image has loaded
-    img.onload = function() {
-        // Calculate the body height based on the image's aspect ratio and the current viewport width
-        var bodyHeight = (window.innerWidth * img.height) / img.width;
-        // Set the body's height to the calculated value
-        document.body.style.height = bodyHeight + 'px';
-    };
-}
-
+// Start the game loop
 
 
 
@@ -139,10 +119,7 @@ tilbageTilTop.onclick = function(event){
     event.preventDefault();
     scrollToSection("top")
 }
-nedpil.onclick = function(event){
-    event.preventDefault();
-    scrollToSection("ommig")
-}
+
 let scrollPosition; 
 document.body.onscroll = function(){
     scrollPosition = Math.round(window.scrollY);
