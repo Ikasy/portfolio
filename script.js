@@ -1,40 +1,39 @@
 import Player from "./Player.js";
 import Dot from "./Dot.js";
 
-
 let player;
 let dots = [];
 
-let score = 0
-let textX = 550
-
+let score = 0;
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
+function initializeGame(){
+    // Clear the canvas with a transparent background
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    dots = []
 
-canvas.width =  window.innerWidth * 0.8;
-canvas.height = window.innerHeight * 0.9;
+    canvas.width =  window.innerWidth * 0.8;
+    canvas.height = window.innerHeight * 0.8;
 
-player = new Player(canvas.width / 2, canvas.height-200);
-player.draw(ctx);
-
-
-const PercentOfCanvasHeight = canvas.height * 0.30; // Calculate 10% of canvas height
-for (let i = 10; i < canvas.width; i += 50) {
-    for (let j = 10; j < canvas.height - PercentOfCanvasHeight; j += 50) {
-        dots.push(new Dot(i, j));
+    player = new Player(canvas.width / 2, canvas.height-200);
+    player.draw(ctx)
+    const PercentOfCanvasHeight = canvas.height * 0.25; // Calculate 10% of canvas height
+    for (let i = 10; i < canvas.width; i += 50) {
+        for (let j = 10; j < canvas.height - PercentOfCanvasHeight; j += 50) {
+            dots.push(new Dot(i, j));
+        }
+    }
+    dots.forEach((dot) => {
+        dot.draw(ctx);
+    });
+    const startSpilKnap = document.getElementById("startSpil");
+    const topdiv = document.getElementById("top");
+    startSpilKnap.onclick = function(event){
+        topdiv.classList.add('hidden');
+        setInterval(gameLoop, 1000 / 60);
     }
 }
-dots.forEach((dot) => {
-    dot.draw(ctx);
-});
-const startSpilKnap = document.getElementById("startSpil");
-const topdiv = document.getElementById("top");
-startSpilKnap.onclick = function(event){
-    topdiv.classList.add('hidden');
-    setInterval(gameLoop, 1000 / 60);
-}
-
 
 function gameLoop() {
     // Clear the canvas with a transparent background
@@ -44,10 +43,15 @@ function gameLoop() {
     dots.forEach((dot) => {
         dot.draw(ctx);
     });
-    
+    ctx.fillStyle = "white";
+    ctx.font = "calc(15px + 0.390625vw) handskrift";
+    ctx.fillText("Piletaster = bevægelse, Mellemrum = Skyde", 0, canvas.height-200);
+    ctx.fillText(` ${score}`, canvas.width-100, canvas.height-200);
+
+
     // Draw player and its lasers
     player.draw(ctx);
-    player.shoot();
+    player.shoot();     
     player.lasers.forEach((laser) => {
         let index = player.lasers.indexOf(laser);
         if (laser.y < -laser.height) {
@@ -67,6 +71,7 @@ function gameLoop() {
             console.log("hit");
             player.lasers.splice(index, 1);
             dots.splice(indexdot, 1);
+            score = score +10;
         }
         }
                 
@@ -75,9 +80,13 @@ function gameLoop() {
 });
 player.rotate();
 }
-// Start the game loop
 
-
+window.onload = function() {
+    initializeGame();
+};
+window.onresize = function() {
+    initializeGame();
+};
 
 // Scroll smooth ned til elementer 
 // Fra tidligere projekt. Interaktiv Storytelling.
