@@ -50,6 +50,8 @@ p{
   font-size: calc(15px + 0.390625vw);
 }
 a{
+  position: relative;
+  z-index: 10;
   color: white;
   text-decoration: none;
   font-size: calc(15px + 0.390625vw);
