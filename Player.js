@@ -69,10 +69,7 @@ export default class Player {
         this.now = Date.now();
         this.difference = this.now - this.lastShootTime;
         if (this.shootPressed && this.difference > this.delay) {
-            console.log("shoti");
-
             this.lasers.push(new Laser(this.x+this.img.width / 2, this.y-this.img.height / 2));
-            console.log("shooti");
             this.lastShootTime = this.now;
         }
     }

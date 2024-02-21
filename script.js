@@ -8,17 +8,22 @@ let score = 0;
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
+const startSpilKnap = document.getElementById("startSpil");
+const topdiv = document.getElementById("top");
+
 function initializeGame(){
     // Clear the canvas with a transparent background
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     dots = []
 
+    // størrelse på kanvas
     canvas.width =  window.innerWidth * 0.8;
     canvas.height = window.innerHeight * 0.8;
 
-    player = new Player(canvas.width / 2, canvas.height-200);
-    player.draw(ctx)
+    
+
     const PercentOfCanvasHeight = canvas.height * 0.25; // Calculate 10% of canvas height
+    const PercentOfCanvasHeightPlayer = canvas.height * 0.1; // Calculate 10% of canvas height
     for (let i = 10; i < canvas.width; i += 50) {
         for (let j = 10; j < canvas.height - PercentOfCanvasHeight; j += 50) {
             dots.push(new Dot(i, j));
@@ -27,12 +32,13 @@ function initializeGame(){
     dots.forEach((dot) => {
         dot.draw(ctx);
     });
-    const startSpilKnap = document.getElementById("startSpil");
-    const topdiv = document.getElementById("top");
+    
     startSpilKnap.onclick = function(event){
         topdiv.classList.add('hidden');
         setInterval(gameLoop, 1000 / 60);
     }
+    player = new Player(canvas.width / 2, canvas.height-PercentOfCanvasHeightPlayer);
+    player.draw(ctx)
 }
 
 function gameLoop() {
@@ -45,48 +51,53 @@ function gameLoop() {
     });
     ctx.fillStyle = "white";
     ctx.font = "calc(15px + 0.390625vw) handskrift";
-    ctx.fillText("Piletaster = bevægelse, Mellemrum = Skyde", 0, canvas.height-200);
-    ctx.fillText(` ${score}`, canvas.width-100, canvas.height-200);
+    ctx.fillText("Piletaster = bevægelse, Mellemrum = Skyde", 0, canvas.height-50);
+    ctx.fillText(` ${score}`, canvas.width-100, canvas.height-50);
 
 
     // Draw player and its lasers
     player.draw(ctx);
     player.shoot();     
-    player.lasers.forEach((laser) => {
-        let index = player.lasers.indexOf(laser);
+    player.lasers.forEach((laser, laserIndex) => {
+        // Check if laser is out of bounds
         if (laser.y < -laser.height) {
-            player.lasers.splice(index, 1);
+            player.lasers.splice(laserIndex, 1);
             console.log(player.lasers.length);
+        } else {
+            laser.draw(ctx); // Moved draw here to ensure laser is always drawn if not removed
+            dots.forEach((dot, dotIndex) => {
+                // Check for collision between laser and dot
+                if (
+                    laser.x + laser.width / 2 > dot.x - dot.radius &&
+                    laser.x + laser.width / 2 < dot.x + dot.radius &&
+                    laser.y < dot.y + dot.radius &&
+                    laser.y + laser.height > dot.y
+                ) {
+                    console.log("hit");
+                    player.lasers.splice(laserIndex, 1);
+                    dots.splice(dotIndex, 1);
+                    score += 10;
+                }
+            });
         }
-        laser.draw(ctx);
-        
-        dots.forEach((dot) =>{
-            let indexdot = dots.indexOf(dot);
-            if (
-            laser.x + laser.width/2 < dot.x + dot.radius &&
-            laser.x + laser.width/2 + laser.width > dot.x &&
-            laser.y < dot.y + dot.radius &&
-            laser.y + laser.height > dot.y
-        ) {
-            console.log("hit");
-            player.lasers.splice(index, 1);
-            dots.splice(indexdot, 1);
-            score = score +10;
-        }
-        }
-                
-        )
+    });
     
-});
 player.rotate();
 }
 
-window.onload = function() {
+if (window.innerWidth > 1200) {
+    window.onload = function() {
+        initializeGame();
+    };
+    window.onresize = function() {
+        initializeGame();
+    };
+} else{
     initializeGame();
-};
-window.onresize = function() {
-    initializeGame();
-};
+    startSpilKnap.style.display = "none";
+    
+}
+
 
 // Scroll smooth ned til elementer 
 // Fra tidligere projekt. Interaktiv Storytelling.
