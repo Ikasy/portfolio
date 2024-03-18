@@ -77,7 +77,7 @@ export default class Player {
     // Method to rotate the player
     rotate() {
         if(this.rotationAngle < 180){
-            this.rotationAngle++; // Increment the rotation angle by 180 degrees
+            this.rotationAngle = this.rotationAngle + 5; // Increment the rotation angle by 180 degrees
         }
     }
 }

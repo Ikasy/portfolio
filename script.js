@@ -1,11 +1,37 @@
 import Player from "./Player.js";
 import Dot from "./Dot.js";
 
+
+// Henter dato/tidspunkt lige nu
+//let lastScrollTime = Date.now();
+
+//bestemmer delayet for hvornår man kan swipe igen
+//const delay = 1000; // 1 sek
+
+  // Tjekker man er på eller videre fra osiris siden
+//if (sideNu >= 2) {   // SKAL VÆRE INDE I GAMELOOP
+    // gemmer den nuværendene tid (+ tid fra load/ sidste scroll)
+    //const now = Date.now();
+    // sammenligner tiderne og tjekker om der er gået længere tid end delayet
+    //if (now - lastScrollTime > delay) { //LAV OM TIL EN VARIABEL
+    
+    //}
+
+      //nulstiller sidste scrolltidspunkt
+    //lastScrollTime = now;
+//}
+
+
+
+
+
+
 let player;
 let dots = [];
 
 let score = 0;
-
+let gameStart;
+let interval = 1000*60;
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const startSpilKnap = document.getElementById("startSpil");
@@ -36,6 +62,8 @@ function initializeGame(){
     startSpilKnap.onclick = function(event){
         topdiv.classList.add('hidden');
         setInterval(gameLoop, 1000 / 60);
+        gameStart = Date.now();
+
     }
     player = new Player(canvas.width / 2, canvas.height-PercentOfCanvasHeightPlayer);
     player.draw(ctx)
@@ -44,15 +72,17 @@ function initializeGame(){
 function gameLoop() {
     // Clear the canvas with a transparent background
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    let now = Date.now();
+    let timeLeft = 500;
     // Draw background elements
     dots.forEach((dot) => {
         dot.draw(ctx);
     });
     ctx.fillStyle = "white";
     ctx.font = "calc(15px + 0.390625vw) handskrift";
-    ctx.fillText("Piletaster = bevægelse, Mellemrum = Skyde", 0, canvas.height-50);
+    ctx.fillText("Piletaster = Bevægelse, Mellemrum = Skyde", 0, canvas.height-50);
     ctx.fillText(` ${score}`, canvas.width-100, canvas.height-50);
+    ctx.fillText(` ${timeLeft}`, canvas.width-300, canvas.height-50);
 
 
     // Draw player and its lasers
